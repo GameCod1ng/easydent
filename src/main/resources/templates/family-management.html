@@ -2,62 +2,143 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <title>가족 계정 관리</title>
     <style>
+        /* 기본 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
+            color: white;
+            display: flex; /* 플렉스 컨테이너 */
+            align-items: center; /* 세로 가운데 정렬 */
+            justify-content: center; /* 텍스트 가운데 정렬 */
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 그림자 강조 */
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .header .back-button {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #9694FF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+        .header .back-button:hover {
+            transform: translateY(-50%);
+            background-color: #9694FF; /* 움직임 제거, 색상 변경만 적용 */
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 20px;
+        }
+
         .container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
+            margin-top: 72px;
+            margin-bottom: 100px;
             padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
             margin-bottom: 20px;
             padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 12px;
+            background-color: #fefefe;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .form-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            color: #333;
         }
 
         input, select {
-            width: 50%;
-            padding: 8px;
+            width: 100%;
+            padding: 12px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         button {
-            background-color: #BFECFF;
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #5a91f7;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
             color: white;
+            font-size: 16px;
             font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+
         }
 
         button:hover {
-            background-color: #9CE0FF;
+            background-color: #4d7ee4;
+            transform: scale(1.02);
         }
 
-        /* 가족 그룹 카드 스타일 */
+        /* 가족 그룹 카드 */
         .family-groups {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .family-card {
-            background-color: #fff;
+            background-color: #ffffff;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .family-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .family-card-title {
@@ -78,13 +159,12 @@
         .family-label {
             font-weight: bold;
             color: #666;
-            width: 80px;
+            width: 30%;
         }
 
         .family-value {
             color: #333;
             flex: 1;
-            margin-left: 10px;
         }
 
         .no-groups {
@@ -92,88 +172,56 @@
             color: #666;
             padding: 20px;
             background-color: #f9f9f9;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 가족 그룹 생성 폼 -->
-        <div class="form-group">
-            <div class="form-title">가족 그룹 생성</div>
-            <form th:action="@{/family-group/create}" method="post">
-                <input type="email" name="memberEmail"
-                       placeholder="초대할 구성원 이메일" required>
-                <select name="relationship" required>
-                    <option value="">관계 선택</option>
-                    <option value="SPOUSE">배우자</option>
-                    <option value="CHILD">자녀</option>
-                    <option value="PARENT">부모</option>
-                    <option value="SIBLING">형제자매</option>
-                    <option value="GRANDPARENT">조부모</option>
-                </select>
-                <br>
-                <button type="submit">가족 그룹 생성</button>
-            </form>
-        </div>
+<!-- 헤더 -->
+<header class="header">
+    <a href="javascript:history.back();" class="back-button">
+        뒤로가기
+    </a>
+    가족 관계 설정
+</header>
+<div class="container">
+    <!-- 가족 그룹 생성 폼 -->
+    <div class="form-group">
+        <div class="form-title">가족 그룹 생성</div>
+        <form th:action="@{/family-group/create}" method="post">
+            <input type="email" name="memberEmail" placeholder="초대할 구성원 이메일" required>
+            <select name="relationship" required>
+                <option value="">관계 선택</option>
+                <option value="SPOUSE">배우자</option>
+                <option value="CHILD">자녀</option>
+                <option value="PARENT">부모</option>
+                <option value="SIBLING">형제자매</option>
+                <option value="GRANDPARENT">조부모</option>
+            </select>
+            <button type="submit">가족 그룹 생성</button>
+        </form>
+    </div>
 
-        <!-- 가족 그룹 목록 -->
-        <div class="family-groups">
-            <style>
-                .new-group-badge {
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    background-color: #4CAF50;
-                    color: white;
-                    padding: 5px 10px;
-                    border-radius: 4px;
-                    font-size: 12px;
-                    animation: fadeOut 3s forwards;
-                }
-
-                @keyframes fadeOut {
-                    0% {
-                        opacity: 1;
-                    }
-                    70% {
-                        opacity: 1;
-                    }
-                    100% {
-                        opacity: 0;
-                    }
-                }
-
-                .family-card {
-                    position: relative;
-                    transition: all 0.3s ease;
-                }
-
-                .family-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-                }
-            </style>
-            <!-- 가족 그룹 카드 목록 -->
-            <div class="family-card" th:if="${session.familyAccount != null}">
-                <div class="family-card-title">가족 그룹</div>
-                <div class="family-info">
-                    <span class="family-label">대표자</span>
-                    <span class="family-value" th:text="${session.currentUser.email}"></span>
-                </div>
-                <div class="family-info">
-                    <span class="family-label">구성원</span>
-                    <span class="family-value" th:text="${session.memberEmail}"></span>
-                </div>
-                <div class="family-info">
-                    <span class="family-label">관계</span>
-                    <span class="family-value" th:text="${session.relationship}"></span>
-                </div>
-                <div class="new-group-badge">
-                    새로운 그룹
-                </div>
+    <!-- 가족 그룹 목록 -->
+    <div class="family-groups">
+        <div class="family-card" th:if="${session.familyAccount != null}">
+            <div class="family-card-title">가족 그룹</div>
+            <div class="family-info">
+                <span class="family-label">대표자</span>
+                <span class="family-value" th:text="${session.currentUser.email}"></span>
+            </div>
+            <div class="family-info">
+                <span class="family-label">구성원</span>
+                <span class="family-value" th:text="${session.memberEmail}"></span>
+            </div>
+            <div class="family-info">
+                <span class="family-label">관계</span>
+                <span class="family-value" th:text="${session.relationship}"></span>
             </div>
         </div>
-    </body>
-    </html>
+    </div>
+    <div th:replace="footer :: footer"></div>
+</div>
+</body>
+</html>

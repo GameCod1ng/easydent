@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import webproject.easydent.DataNotFoundException;
 import webproject.easydent.entities.User;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,9 @@ public class ReviewService {
 
     public List<Review> getList(){
         return this.reviewRepository.findAll();
+    }
+    public List<Review> getListById(User author){
+        return this.reviewRepository.findByAuthor(author);
     }
 
     public Review getReview(Integer id){
@@ -44,4 +48,11 @@ public class ReviewService {
         this.reviewRepository.save(r);
     }
 
+    //12.02
+//    public void modify(Review review, String subject, String content){
+//        review.setSubject(subject);
+//        review.setContent(content);
+//        review.setModifyDate(LocalDateTime.now());
+//        this.reviewRepository.save(review);
+//    }
 }

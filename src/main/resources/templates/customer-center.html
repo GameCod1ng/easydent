@@ -1,30 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>고객센터</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* 기본 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #f9f9f9;
             color: #333;
-            padding-bottom: 120px; /* 하단 네비게이션 간격 확보 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 80px; /* 헤더 공간 확보 */
+            padding-bottom: 100px; /* 하단 네비게이션 공간 확보 */
         }
 
         /* 헤더 */
         .header {
-            position: relative;
-            background: #007BFF;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
             color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 22px;
+            display: flex; /* 플렉스 컨테이너 */
+            align-items: center; /* 세로 가운데 정렬 */
+            justify-content: center; /* 텍스트 가운데 정렬 */
+            padding: 16px;
+            font-size: 18px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 그림자 강조 */
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
         }
 
         .header .back-button {
@@ -32,75 +51,96 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            text-decoration: none;
+            background-color: #9694FF;
+            border: none;
             color: white;
-            font-size: 16px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
         }
-
-        .header .back-button img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-        }
-
         .header .back-button:hover {
-            color: #cce4ff;
-            transform: translateY(-50%) scale(1.05);
+            transform: translateY(-50%);
+            background-color: #9694FF; /* 움직임 제거, 색상 변경만 적용 */
+        }
+
+        /* 콘텐츠 */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
         }
 
         /* 버튼 스타일 */
-        .btn-large {
+        .btn {
+            display: block;
             width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 12px;
             font-size: 16px;
+            font-weight: bold;
             text-align: center;
             border-radius: 8px;
-            transition: 0.3s;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
 
         .faq-btn {
-            background-color: #007BFF;
+            background: #5a91f7;
             color: white;
             border: none;
         }
 
         .faq-btn:hover {
-            background-color: #0056b3;
+            background:#5a91f7;
         }
 
         .chat-btn {
-            background-color: #fff;
-            color: #007BFF;
-            border: 1px solid #007BFF;
+            background-color: white;
+            color: #2575fc;
+            border: 1px solid #2575fc;
         }
 
         .chat-btn:hover {
-            background-color: #f0f8ff;
+            background-color: #e8f0fe;
+        }
+
+        /* 리스트 스타일 */
+        .list-group {
+            margin-top: 20px;
         }
 
         .list-group-item {
-            font-size: 16px;
-            padding: 15px 20px;
-            margin-bottom: 10px;
+            background-color: white;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background: #fff;
-            transition: 0.3s;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
         .list-group-item:hover {
-            background-color: #f8f9fa;
+            background-color: #f9f9f9;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .version-info {
-            font-size: 14px;
-            color: #888;
-            text-align: center;
-            margin-top: 30px;
         }
 
         /* 하단 네비게이션 */
@@ -108,113 +148,62 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: #ffffff;
+            background-color: white;
             display: flex;
             justify-content: space-around;
             padding: 15px 0;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
-            z-index: 1000;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 80px;
-            background: linear-gradient(135deg, #ffffff, #f0f4f8);
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
             text-decoration: none;
-        }
-
-        .nav-item:hover {
-            transform: scale(1.1);
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #666;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
 
         .nav-item img {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             margin-bottom: 5px;
         }
 
-        .nav-item span {
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .nav-item:hover span {
-            color: white;
+        .nav-item:hover {
+            color: #2575fc;
         }
     </style>
 </head>
 <body>
 <!-- 헤더 -->
 <div class="header">
-    <a href="javascript:history.back();" class="back-button">
-        <img src="/img/back_btn.png" alt="뒤로가기">
-        뒤로가기
-    </a>
+    <a href="javascript:history.back();" class="back-button">뒤로가기</a>
     고객센터
 </div>
 
 <!-- 콘텐츠 -->
-<div class="content container">
-    <h3 class="text-center">고객님, 무엇을 도와드릴까요?</h3>
-    <p class="text-center text-muted">자주 묻는 질문에서 궁금한 점을 더 빠르게 해결해보세요!</p>
+<div class="container">
+    <h3>고객님, 무엇을 도와드릴까요?</h3>
+    <p>자주 묻는 질문에서 궁금한 점을 더 빠르게 해결해보세요!</p>
 
     <!-- 버튼 -->
-    <button class="btn btn-large faq-btn">
-        <i class="fas fa-comment-dots"></i> 자주 묻는 질문
-    </button>
-    <button class="btn btn-large chat-btn">
-        <i class="fas fa-headset"></i> 채팅 상담
-    </button>
+    <button class="btn faq-btn">자주 묻는 질문</button>
+    <button class="btn chat-btn">채팅 상담</button>
 
     <!-- 리스트 -->
-    <ul class="list-group mt-4">
+    <ul class="list-group">
         <li class="list-group-item">이지던트 설명서</li>
         <li class="list-group-item">공지사항</li>
         <li class="list-group-item">약관 및 정책</li>
     </ul>
 </div>
 
-<!-- 하단 네비게이션 -->
-<nav class="bottom-nav">
-    <a href="/reservation" class="nav-item">
-        <img src="/img/reservation.png" alt="예약 아이콘">
-        <span>예약</span>
-    </a>
-    <a href="/shop" class="nav-item">
-        <img src="/img/whitening.png" alt="치위생품">
-        <span>치위생품</span>
-    </a>
-    <a href="/" class="nav-item">
-        <img src="/img/home.png" alt="홈 아이콘">
-        <span>홈</span>
-    </a>
-    <a href="/review/list" class="nav-item">
-        <img src="/img/chat.png" alt="커뮤니티">
-        <span>커뮤니티</span>
-    </a>
-    <a href="/mypage" class="nav-item">
-        <img src="/img/mypage.png" alt="마이페이지 아이콘">
-        <span>마이페이지</span>
-    </a>
-</nav>
-
-<!-- JS Libraries -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div th:replace="footer :: footer"></div>
 </body>
 </html>

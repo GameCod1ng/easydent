@@ -3,16 +3,22 @@ package webproject.easydent.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import webproject.easydent.entities.FamilyAccount;
 import webproject.easydent.entities.User;
+import webproject.easydent.review.review.Review;
+import webproject.easydent.review.review.ReviewService;
 import webproject.easydent.service.FamilyAccountService;
 import webproject.easydent.service.ProductService;
 import webproject.easydent.service.UserService;
 import webproject.easydent.vos.CustomOAuth2User;
+
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -21,6 +27,7 @@ import webproject.easydent.vos.CustomOAuth2User;
 public class MyPageController {
     private final UserService userService;
     private final FamilyAccountService familyAccountService;
+    private final ReviewService reviewService;
 
     @GetMapping
     public String myPage(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
@@ -40,14 +47,13 @@ public class MyPageController {
 
     //정보 수정
     @GetMapping("/edit-info")
-    public String userInfo(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+    public String userInfo(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
-        if(customOAuth2User!=null){
+        if (customOAuth2User != null) {
             User user = customOAuth2User.getUser();
             log.info("Authenticated user: {}", user);
-            model.addAttribute("user",user);
-        }
-        else{
+            model.addAttribute("user", user);
+        } else {
             log.info("user-notFound");
         }
         return "edit-info";
@@ -105,26 +111,37 @@ public class MyPageController {
 
     //고객 센터
     @GetMapping("/customer-center")
-    public String customerCenter(){
+    public String customerCenter() {
         return "customer-center";
     }
 
     //공지 사항
     @GetMapping("/notice")
-    public String notice(){
+    public String notice() {
         return "notice";
     }
 
     //진료 내역
     @GetMapping("/medical-history")
-    public String medicalHistory(){
+    public String medicalHistory() {
         return "medical-history";
     }
 
     //치과 가입 문의
     @GetMapping("/register")
-    public String register(){
+    public String register() {
         return "register";
     }
 
+    @GetMapping("/myReview")
+    public String myReview(Model model, Authentication authentication) {
+        if (authentication != null) {
+            CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+            User user = customOAuth2User.getUser();
+            List<Review> myReviewList = this.reviewService.getListById(user);
+            model.addAttribute("myReviewList", myReviewList);
+            return "my_review";
+        }
+        return "redirect:/login";
+    }
 }

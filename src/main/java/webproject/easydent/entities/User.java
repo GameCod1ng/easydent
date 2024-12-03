@@ -25,7 +25,7 @@ public class User{
 
     LocalDate birthDay;
 
-    String accountType; // 어떤 계정으로 로그인 했는지
+    String accountType; // 어떤 계정(구글, 카카오)으로 로그인 했는지
 
     LocalDate createdAt; // 계정 생성일
 

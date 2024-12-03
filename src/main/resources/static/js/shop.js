@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const productList = document.getElementById("product-list");
 
-    fetch("http://192.168.45.179:9090/products") // API 호출
+    fetch("http://192.168.0.49:9090/products") // API 호출
         .then(response => {
             if (!response.ok) {
                 throw new Error("네트워크 응답에 문제가 있습니다.");

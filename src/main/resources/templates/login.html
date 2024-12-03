@@ -22,7 +22,8 @@
             /* 모서리를 둥글게 */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             /* 부드러운 그림자 추가 */
-            width: 24rem;
+            width: 30rem;
+            height: 40rem;
         }
 
         .login-btn {
@@ -62,10 +63,66 @@
             color: #3a1d1d;
         }
 
-        .kakao-btn img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+        .easydent-text {
+            color: white;
+            text-align: center;
+            margin: 0;
+            font-size: 2.5rem;
+            font-family: 'Futura Heavy', 'Futura-Heavy', 'Futura', sans-serif;
+            font-weight: 800;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.5s;
+        }
+
+        .header-block {
+            background-color: #87CEEB;
+            padding: 20px;
+            border-radius: 15px;
+            opacity: 0;
+            transform: translateY(-40px);
+            animation: slideDown 1s ease forwards;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .login-image-container {
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-image-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @font-face {
+            font-family: 'Futura Heavy';
+            src: url('/fonts/Futura Heavy font.ttf') format('truetype'),
+            local('Futura Heavy');
         }
     </style>
 </head>
@@ -75,12 +132,20 @@
 <div class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="card shadow p-4">
         <div class="card-body">
-            <!-- Login Page Image -->
-            <div class="text-center mb-4">
-                <img src="/img/dentist.png" alt="Login Image" style="width: 300px; height: 300px;">
+            <div class="header-block">
+                <h1 class="easydent-text">EasyDent</h1>
             </div>
+            <div class="login-image-container">
+                <img src="/img/loginImg.webp" alt="Login Image">
+            </div>
+            <style>
 
-            <h3 class="card-title text-center mb-4">이지 덴트</h3>
+                .login-image-container {
+                    max-width: 600px;
+                    width: 90%;
+                    margin: 20px auto;
+                }
+            </style>
 <!--            <p class="text-center text-muted mb-4">로그인</p>-->
 
             <!-- Google Login -->
@@ -93,7 +158,6 @@
             <a href="/oauth2/authorization/kakao" class="login-btn kakao-btn">
                 <img src="/img/kakao_login_medium_wide.png"
                      alt="Kakao Icon">
-                카카오 계정으로 로그인
             </a>
 
             <p id="token-result" class="text-center text-muted mt-4"></p>
@@ -106,11 +170,11 @@
         integrity="sha384-kLbo2SvoNtOFiniJ1EQ9o2iDA8i3xp+O6Cns+L5cd4RsOJfl+43z5pvieT2ayq3C"
         crossorigin="anonymous"></script>
 <script>
-    Kakao.init('3dfca59a4cb0111ab8d50fe1b6306ada'); // 사용하려는 앱의 JavaScript 키 입력
+    Kakao.init(''); // 사용하려는 앱의 JavaScript 키 입력
 
     function loginWithKakao() {
         Kakao.Auth.authorize({
-            redirectUri: 'http://192.168.45.179:9090/',
+            redirectUri: 'http://localhost:9090/',
             scope: 'account_email',
         });
     }
@@ -123,7 +187,7 @@
                 .then(function (res) {
                     if (res.status === 'connected') {
                         // 로그인 성공 시 리다이렉트
-                        window.location.href = 'http://192.168.45.179:9090/';
+                        window.location.href = 'http://localhost:9090/';
                     }
                 })
                 .catch(function (err) {
@@ -151,13 +215,13 @@
         const email = data.email || 'Unknown Email';
 
         // 로그인 성공 후 리다이렉트
-        window.location.href = 'http://192.168.45.179:9090/';
+        window.location.href = 'http://localhost:9090/';
     }
 
     // Render Google Sign-In button
     window.onload = function () {
         google.accounts.id.initialize({
-            client_id: '108781772937-v2e71m0ahkgefif0htsn05ba1u9aav0p.apps.googleusercontent.com', // 클라이언트 ID 입력
+            client_id: '', // 클라이언트 ID 입력
             callback: handleGoogleCredentialResponse
         });
 

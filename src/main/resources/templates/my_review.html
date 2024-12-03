@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>커뮤니티</title>
+    <title>EasyDent</title>
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="/css/list.css">
 </head>
@@ -14,7 +14,7 @@
         <a href="/" class="back-button">
            뒤로가기
         </a>
-        EasyDent
+        내가 작성한 글 전체 보기
     </header>
 
     <!-- 메인 콘텐츠 -->
@@ -24,12 +24,11 @@
             <tr>
                 <th>번호</th>
                 <th style="width: 50%">제목</th>
-                <th>작성자</th>
                 <th>작성일시</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="review, loop : ${reviewList}">
+            <tr th:each="review, loop : ${myReviewList}">
                 <td th:text="${loop.count}"></td>
                 <td>
                     <a th:href="@{|/review/detail/${review.id}|}" th:text="${review.subject}"></a>
@@ -37,23 +36,15 @@
                           th:if="${#lists.size(review.commentList) > 0}"
                           th:text="${#lists.size(review.commentList)}"></span>
                 </td>
-                <td>
-                    <span th:if="${review.author!= null}" th:text="${review.author.name}"></span>
-                </td>
+
                 <td th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>
 
         </table>
 
-        <!-- 플로팅 버튼 -->
-        <a href="/review/create" class="floating-btn">
-            <img src="/img/write.png" alt="글쓰기">
-        </a>
     </div>
 
-    <!--푸터 -->
-    <div th:replace="footer :: footer"></div>
 
 </div>
 </body>

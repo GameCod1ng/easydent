@@ -64,7 +64,7 @@ body {
 .container {
     width: 100%;
     max-width: 600px;
-    margin: 72px auto 100px; /* 헤더와 푸터 간격 포함 */
+    margin: 88px auto 88px; /* 헤더와 푸터 사이에 균형 있는 공간 유지 */
     padding: 20px;
     background-color: #ffffff;
     border-radius: 12px;

@@ -142,7 +142,6 @@
         }
 
 
-
         .nav-item img {
             width: 28px;
             height: 28px;
@@ -176,34 +175,42 @@
             <div class="card-text" style="white-space: pre-line;" th:text="${review.content}"></div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    <span
+                            th:if="${review.author!=null}"
+                            th:text="${review.author.name}"
+                    ></span>
                 </div>
+                <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
             </div>
         </div>
+
     </div>
-    <!-- 답글 개수 표시 -->
-    <h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(review.commentList)}개의 답변이 있습니다.|"></h5>
-    <!-- 답글 반복 시작 -->
-    <div class="card" th:each="comment : ${review.commentList}">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;" th:text="${comment.content}"></div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">
-                        <span th:if="${comment.author!=null}" th:text="${comment.author.name}"></span>
-                    </div>
-                    <div th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+</div>
+<!-- 답글 개수 표시 -->
+<h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(review.commentList)}개의 답변이 있습니다.|"></h5>
+<!-- 답글 반복 시작 -->
+<div class="card" th:each="comment : ${review.commentList}">
+    <div class="card-body">
+        <div class="card-text" style="white-space: pre-line;" th:text="${comment.content}"></div>
+        <div class="d-flex justify-content-end">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <div class="mb-2">
+                    <span th:if="${comment.author!=null}" th:text="${comment.author.name}"></span>
                 </div>
+                <div th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
             </div>
         </div>
+
     </div>
-    <!-- 답변 반복 끝 -->
-    <!-- 답글 작성 -->
-    <form th:action="@{|/comment/create/${review.id}|}" th:object="${commentForm}" method="post" class="my-3">
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <textarea sec:authorize="isAuthenticated()" name="content" id="content2" rows="5" placeholder="답글을 작성하세요..."></textarea>
-        <input type="submit" value="답변 등록" class="btn-primary">
-    </form>
+</div>
+<!-- 답변 반복 끝 -->
+<!-- 답글 작성 -->
+<form th:action="@{|/comment/create/${review.id}|}" th:object="${commentForm}" method="post" class="my-3">
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+    <textarea sec:authorize="isAuthenticated()" name="content" id="content2" rows="5"
+              placeholder="답글을 작성해주세요."></textarea>
+    <input type="submit" value="답변 등록" class="btn-primary">
+</form>
 </div>
 
 <!-- 하단 네비게이션 -->

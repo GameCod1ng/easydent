@@ -32,4 +32,6 @@ public class Review {
 
     @ManyToOne
     private User author; //글쓴이
+
+//    private LocalDateTime modifyDate;
 }
