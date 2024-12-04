@@ -34,8 +34,8 @@ spring:
       client:
         registration:
           kakao:
-            client-id: af5058c0258df5e867d46392ad1a04a3
-            client-secret: xvfDCqfHvHf5rOhdivwcTAkSsHoMbwT6
+            client-id:
+            client-secret:
             scope:
               - account_email
               - name
@@ -49,8 +49,8 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: client_secret_post
           google:
-            client-id: 108781772937-v2e71m0ahkgefif0htsn05ba1u9aav0p.apps.googleusercontent.com
-            client-secret: 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
+            client-id:
+            client-secret:
             redirect-uri: "http://localhost:9090/login/oauth2/code/google"
             scope:
               - email
