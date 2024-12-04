@@ -55,6 +55,7 @@
             cursor: pointer;
             border-radius: 30px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* 밑줄 제거 */
         }
         .header .back-button:hover {
             transform: translateY(-50%);
@@ -99,8 +100,9 @@
         }
 
         .btn {
-            width: 100%;
-            max-width: 300px;
+            display: block;
+            width: 80%; /* 버튼 너비를 부모 컨테이너 너비의 80%로 설정 */
+            max-width: 400px; /* 최대 너비를 400px로 제한 */
             padding: 12px;
             background-color: #5a91f7;
             color: white;
@@ -111,6 +113,7 @@
             text-align: center;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0 auto; /* 버튼을 수평 가운데 정렬 */
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -121,17 +124,6 @@
 
         .btn:active {
             transform: scale(0.98);
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f1f1f1;
-            text-align: center;
-            padding: 10px 0;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            font-size: 14px;
         }
     </style>
 </head>

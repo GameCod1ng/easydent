@@ -1,122 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>웹 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+        /* Reset (초기화) */
+        * {
             margin: 0;
             padding: 0;
-        }
-        .header {
-            background: #007BFF;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .content {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .notice-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .notice-item:last-child {
-            border-bottom: none;
-        }
-        .notice-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #007BFF;
-            cursor: pointer;
-        }
-        .notice-title:hover {
-            text-decoration: underline;
-        }
-        .notice-date {
-            font-size: 14px;
-            color: #aaa;
-            margin-bottom: 10px;
-        }
-        .notice-detail {
-            display: none;
-            font-size: 14px;
-            color: #555;
-            margin-top: 10px;
-        }
-        .notice-detail.show {
-            display: block;
+            box-sizing: border-box;
         }
 
+        /* 공통 Body 스타일 */
+        body {
+            font-family: 'Noto Sans', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 공통 Wrapper */
+        .wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 공통 Header 스타일 */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .header .back-button {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #9694FF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        .header .back-button:hover {
+            background-color: #7a85f0;
+        }
+
+        /* 리스트 컨테이너 스타일 */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 88px auto 88px; /* 헤더와 푸터 사이에 균형 있는 공간 유지 */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 140px); /* 헤더(72px)와 푸터(68px) 제외 */
+            overflow-y: auto;
+        }
+
+        /* 테이블 스타일 */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead {
+            background-color: #5a91f7;
+            color: white;
+        }
+
+        .table th,
+        .table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* 플로팅 버튼 */
+        .floating-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #5a91f7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .floating-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 하단 네비게이션 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav-item img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .nav-item:hover span {
+            color: #3591d3;
+        }
     </style>
 </head>
 <body>
 <!-- 헤더 -->
 <div class="header">
-    공지사항
-</div>
-
-<!-- 콘텐츠 -->
-<!-- 샤이드가 h2에 DB 설정해서 공지사항도 만드시고 아래에 넣으시면 됩니다.-->
-<div class="content">
-    <!-- 예시로 만듬 . 공지사항 1 -->
-    <div class="notice-item">
-        <div class="notice-title" onclick="toggleDetail(1)">
-            맨유가 아모랑 파티 영입 ( 형님 이거 누르시면 자세히 공지사항 글  보이게 설정했습다 )
-        </div>
-        <div class="notice-date">2024/10/21</div>
-        <div id="detail-1" class="notice-detail">
-            안토니~ 박토니~    안토니~ 박토니~   안토니~ 박토니~   안토니~ 박토니~
-        </div>
-    </div>
-
-    <!-- 예시로 만듬 . 공지사항 2 -->
-    <div class="notice-item">
-        <div class="notice-title" onclick="toggleDetail(2)">
-            철멍토야 팀플 좀 해줘
-        </div>
-        <div class="notice-date">2024/08/13</div>
-        <div id="detail-2" class="notice-detail">
-            너 옷 잘입는다매 디자인좀 도와줘
-        </div>
-    </div>
-
-    <!-- 예시로 만듬 . 공지사항 3 -->
-    <div class="notice-item">
-        <div class="notice-title" onclick="toggleDetail(3)">
-            근데 색깔 이 파랑색이 젤 나은듯?
-        </div>
-        <div class="notice-date">2024/07/26</div>
-        <div id="detail-3" class="notice-detail">
-           인정해주십니까 조장님
-        </div>
-    </div>
+    <a href="javascript:history.back();" class="back-button">뒤로가기</a>
+    페이지 제목
 </div>
 
 
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>진료 시간 변경 안내</td>
+            <td>2024-12-04</td>
+        </tr>
+        <tr>
+            <td>연말 정산용 진료비 영수증 발급 안내</td>
+            <td>2024-12-03</td>
+        </tr>
+        <tr>
+            <td>새로운 진료 서비스 추가</td>
+            <td>2024-12-01</td>
+        </tr>
+        <tr>
+            <td>시스템 점검 안내</td>
+            <td>2024-11-29</td>
+        </tr>
+        <tr>
+            <td>이벤트 안내: 첫 방문 고객 할인</td>
+            <td>2024-11-28</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-<!-- JavaScript -->
-<script>
-    function toggleDetail(id) {
-        const detail = document.getElementById(`detail-${id}`);
-        detail.classList.toggle('show');
-    }
-</script>
+
+<!-- 플로팅 버튼 -->
+<div class="floating-btn">
+    <img src="https://via.placeholder.com/24" alt="버튼">
+</div>
+
+<!-- 하단 네비게이션 -->
+<div th:replace="footer :: footer"></div>
+
 </body>
 </html>

@@ -3,6 +3,7 @@ package webproject.easydent.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
+import webproject.easydent.review.comment.Comment;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,5 +39,8 @@ public class User{
     private FamilyAccount familyAccount;
 
     private Boolean isFamilyLeader; // 가족 리더인지 여부
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Location> locationList; // 리뷰에 대한 답글 리스트
 
 }

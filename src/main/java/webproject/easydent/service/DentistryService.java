@@ -19,12 +19,16 @@ public class DentistryService {
 
         List<Dentistry> categoryList = this.dentistryRepository.findByCategoryContaining(keyword);
 
+        List<Dentistry> addressList = this.dentistryRepository.findByAddressContaining(keyword);
+
         Set<Dentistry> searchSet = new HashSet<>();
 
         searchSet.addAll(clinicNameList);
         searchSet.addAll(categoryList);
+        searchSet.addAll(addressList);
         System.out.println("searchByKeyword :: clinicNameList :  " + clinicNameList);
         System.out.println("searchByKeyword :: categoryList :  " + categoryList);
+        System.out.println("searchByKeyword :: addressList :  " + addressList);
         return searchSet;
     }
 }

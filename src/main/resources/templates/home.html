@@ -7,17 +7,17 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/reservation.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
-
 </head>
 
 <body>
 <header class="header">
-    복현로 35
+    EasyDent
+    <img src="/img/star.png" alt="별 버튼" class="star-btn" onclick="openPostcode()">
 </header>
 
 <main class="main-content">
     <section class="reservation">
-        <button class="reservation-btn" onclick="window.location.href='http://192.168.0.49:9090/reservation';">
+        <button class="reservation-btn" onclick="window.location.href='http://localhost:9090/reservation';">
             예약
         </button>
     </section>
@@ -35,17 +35,15 @@
     <!-- Popular Posts Section -->
     <section class="popular-posts">
         <h2>요즘 뜨는 인기글 보기</h2>
-        <ul>
-
-        </ul>
+        <ul></ul>
         <button class="view-all-btn" onclick="window.location.href='/review/list';">
             글 전체보기
         </button>
-
     </section>
 
     <section class="information-cards">
-        <div class="card" style="background-color: #FF6B6B;" onclick="window.location.href='http://192.168.0.49:9090/qa/page';">
+        <div class="card" style="background-color: #FF6B6B;"
+             onclick="window.location.href='http://localhost:9090/qa/page';">
             <div class="card-content">
                 <div class="text-content">
                     <h3>무엇이든 물어보세요</h3>
@@ -63,7 +61,6 @@
                 <img src="/img/qa2.png" alt="사진2" class="card-image">
             </div>
         </div>
-
         <div class="card" style="background-color: #FFA801;">
             <div class="card-content">
                 <div class="text-content">
@@ -74,9 +71,37 @@
             </div>
         </div>
     </section>
-
 </main>
 <div th:replace="footer :: footer"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function openPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                const location = {
+                    zonecode: data.zonecode,
+                    address: data.address,
+                    sigungu: data.sigungu,
+                    bname: data.bname
+                };
+
+                // 서버로 데이터 전송
+                fetch('/home/location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(location)
+                })
+                    .then(response => response.json())
+                    .then(data => console.log('저장 성공:', data))
+                    .catch(error => console.error('저장 실패:', error));
+
+            }
+        }).open();
+    }
+</script>
 </body>
 
 </html>

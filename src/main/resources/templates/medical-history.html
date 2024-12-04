@@ -4,53 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>진료내역</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fa;
+        /* Reset (초기화) */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+        /* Body 스타일 */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .header {
-            background: #007BFF;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
             color: white;
             text-align: center;
-            padding: 20px 0;
-            font-size: 22px;
+            padding: 16px;
+            font-size: 18px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
         }
+
+        .header .back-button {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #9694FF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        .header .back-button:hover {
+            background-color: #7a85f0;
+        }
+
+        /* 알림 박스 */
         .notification-box {
             background: #eaf7ff;
             border-left: 5px solid #007BFF;
             padding: 15px 20px;
-            margin: 20px auto;
+            margin: 100px auto 20px;
             border-radius: 8px;
-            max-width: 800px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .notification-box p {
             margin: 0;
             color: #333;
             font-size: 14px;
         }
+
+        /* 아이콘 박스 */
         .icon-box {
             text-align: center;
             margin: 40px 0;
         }
+
         .icon-box img {
             width: 80px;
             height: 80px;
         }
+
         .icon-box p {
             font-size: 16px;
             color: #666;
             margin-top: 10px;
         }
+
+        /* 액션 버튼 */
         .action-btn {
             display: block;
-            width: 200px;
+            width: 90%;
+            max-width: 300px;
             margin: 20px auto;
             padding: 15px;
             text-align: center;
@@ -60,24 +113,91 @@
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1 );
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         .action-btn:hover {
             background-color: #ffd600;
             text-decoration: none;
+            transform: scale(1.05);
+        }
+        footer {
+            display: flex;
+            justify-content: space-around; /* 아이템 간격 균등 */
+            align-items: center; /* 세로 정렬 */
+            padding-top: 8px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            height: 80px;
+        }
+
+        .footer-item {
+            display: flex;
+            flex-direction: column; /* 세로 배치 */
+            align-items: center; /* 중앙 정렬 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+        }
+
+        .footer-item img {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 4px; /* 이미지와 텍스트 간격 */
+        }
+
+        .footer-item span {
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+
+
+        /* 반응형 레이아웃 */
+        @media (max-width: 600px) {
+            .header {
+                font-size: 18px;
+                padding: 16px 0;
+            }
+
+            .notification-box {
+                padding: 12px 16px;
+            }
+
+            .icon-box img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .icon-box p {
+                font-size: 14px;
+            }
+
+            .action-btn {
+                font-size: 14px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
 <!-- 헤더 -->
+
 <div class="header">
-    진료내역
+    <a href="javascript:history.back();" class="back-button">뒤로가기</a>
+    진료 내역
 </div>
+
 
 <!-- 알림 박스 -->
 <div class="notification-box">
-    <p>일단 만들긴 했는데 이건 백엔드랑 연결해서 다시 만들어야할거 같습다.</p>
-    <p>후후.</p>
+    <p>진료 받은 내역</p>
 </div>
 
 <!-- 아이콘 박스 -->
@@ -90,6 +210,28 @@
 <a href="/reservation" class="action-btn">
     진료받으러 가기 &gt;
 </a>
+<footer th:fragment="footer">
+    <a href="/reservation" class="footer-item">
+        <img src="/img/reservation.png" alt="예약 아이콘">
+        <span>예약</span>
+    </a>
+    <a href="/shop" class="footer-item">
+        <img src="/img/whitening.png" alt="치위생품">
+        <span>치위생품</span>
+    </a>
+    <a href="/" class="footer-item">
+        <img src="/img/home.png" alt="홈 아이콘">
+        <span>홈</span>
+    </a>
+    <a href="/review/list" class="footer-item">
+        <img src="/img/chat.png" alt="커뮤니티">
+        <span>커뮤니티</span>
+    </a>
+    <a href="/mypage" class="footer-item">
+        <img src="/img/mypage.png" alt="마이페이지 아이콘">
+        <span>마이페이지</span>
+    </a>
+</footer>
 
 
 </body>

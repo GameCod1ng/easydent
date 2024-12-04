@@ -18,4 +18,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 이 병원에 이 시간에 얼만큼 예약을 했는지 해서 치과의 의사 수와 비교해서 예약시간을 블록처리 되게 30분 간격으로
     List<Reservation> findByDentistryAndReservedTime(Dentistry dentistry, String reservedTime);
 
+
 }

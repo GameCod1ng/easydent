@@ -35,12 +35,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/img/**", "/login","/reservation/**").permitAll()
 //                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                                .requestMatchers("/home/location").permitAll() // 추가
                                 .requestMatchers("/reservation/create").permitAll() // 추가
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         new AntPathRequestMatcher("/h2-console/**"),
-                        new AntPathRequestMatcher("/reservation/create")
+                        new AntPathRequestMatcher("/reservation/create"),
+                        new AntPathRequestMatcher("/home/location")
+
                 ))
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
