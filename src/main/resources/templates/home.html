@@ -7,12 +7,28 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/reservation.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+
+        .location-text {
+            font-size: 20px;
+            color: #e0e0e0;
+            flex: 1;
+            text-align: left;
+        }
+
+
+
+        /* 별 버튼 */
+        .star-btn {
+            flex: 1;
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
 <header class="header">
-    EasyDent
-    
+    <span id="locationDisplay" class="location-text"></span>
     <img src="/img/star.png" alt="별 버튼" class="star-btn" onclick="openPostcode()">
 </header>
 
@@ -77,28 +93,49 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    // 페이지 로드 시 저장된 위치 정보 표시
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/user/current')
+            .then(response => response.text())
+            .then(email => {
+                if (email) {
+                    const savedLocation = localStorage.getItem(`location_${email}`);
+                    if (savedLocation) {
+                        document.getElementById('locationDisplay').textContent = savedLocation;
+                    }
+                }
+            })
+            .catch(error => console.error('사용자 정보 로드 실패:', error));
+    });
+
     function openPostcode() {
         new daum.Postcode({
-            oncomplete: function (data) {
-                const location = {
-                    zonecode: data.zonecode,
-                    address: data.address,
-                    sigungu: data.sigungu,
-                    bname: data.bname
-                };
+            oncomplete: function(data) {
+                fetch('/user/current')
+                    .then(response => response.text())
+                    .then(email => {
+                        const location = {
+                            zonecode: data.zonecode,
+                            address: data.address,
+                            sigungu: data.sigungu,
+                            bname: data.bname
+                        };
 
-                // 서버로 데이터 전송
-                fetch('/home/location', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(location)
-                })
-                    .then(response => response.json())
-                    .then(data => console.log('저장 성공:', data))
-                    .catch(error => console.error('저장 실패:', error));
-
+                        fetch('/home/location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(location)
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById('locationDisplay').textContent = data.bname;
+                                    localStorage.setItem(`location_${email}`, data.bname);
+                                }
+                            })
+                            .catch(error => console.error('위치 저장 실패:', error));
+                    });
             }
         }).open();
     }
