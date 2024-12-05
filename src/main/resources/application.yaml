@@ -11,7 +11,8 @@ spring:
   #      path: /h2-console
   datasource:
 
-    url: jdbc:mysql://192.168.45.179:3306/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+#    url: jdbc:mysql://192.168.45.179:3306/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: easydent
     password: 1234
@@ -42,8 +43,8 @@ spring:
               - birthday
               - birthyear
               - phone_number
-            #            redirect-uri: "http://172.20.10.7:9090/login/oauth2/code/kakao"
-            redirect-uri: "http://192.168.45.179:9090/login/oauth2/code/kakao"
+            redirect-uri: "http://localhost:9090/login/oauth2/code/kakao"
+#            redirect-uri: "http://192.168.45.179:9090/login/oauth2/code/kakao"
 #            redirect-uri: "http://192.168.0.49:9090/login/oauth2/code/kakao"
             client-name: kakao
             authorization-grant-type: authorization_code

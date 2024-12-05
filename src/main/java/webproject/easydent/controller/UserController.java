@@ -53,16 +53,6 @@ public class UserController {
     }
 
 
-
-    @GetMapping("/shop")
-    public String showShop(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws JsonProcessingException {
-        List<Product> products = productService.getAllProducts();
-        ObjectMapper mapper = new ObjectMapper();
-        String productsJson = mapper.writeValueAsString(products);
-        model.addAttribute("products", productsJson);
-        log.info(productsJson);
-        return "shop";
-    }
     @GetMapping("/qa/page")
     public String qaPage() {
         return "qa_page";

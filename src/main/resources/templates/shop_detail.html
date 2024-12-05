@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDent Shop</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header>
+    <button class="back-button" onclick="history.back()">뒤로가기</button>
+    EasyDent
+</header>
+
+<div class="content">
+    <style>
+        .product-detail{
+            width: 100%;
+        }
+        .product-container {
+            max-height: 500px; /* 초기에 보여줄 높이 */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .product-container.expanded {
+            max-height: 3000px; /* 충분히 큰 값으로 설정 */
+        }
+
+        .show-more-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border: none;
+            border-top: 1px solid #ddd;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreBtn = document.getElementById('showMoreBtn');
+            const productContainer = document.querySelector('.product-container');
+
+            showMoreBtn.addEventListener('click', function() {
+                productContainer.classList.toggle('expanded');
+                showMoreBtn.textContent =
+                    productContainer.classList.contains('expanded')
+                        ? '접기'
+                        : '상품 정보 더 보기';
+            });
+        });
+    </script>
+    <img class="product-detail" src="/img/product/product_detail/가그린상세.jpg">
+    <button id="showMoreBtn" class="show-more-btn">상품 정보 더 보기</button>
+</div>
+
+<footer th:replace="footer :: footer"></footer>
+
+<script th:src="@{/js/shop.js}"></script>
+</body>
+</html>

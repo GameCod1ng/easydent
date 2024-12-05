@@ -67,8 +67,8 @@ public class DentistryController {
     private ReservationRepository reservationRepository;
 
 
-    @CrossOrigin(origins = "http://192.168.45.179:9090", allowCredentials = "true")
-//    @CrossOrigin(origins = "http://192.168.0.49:9090", allowCredentials = "true")
+//    @CrossOrigin(origins = "http://192.168.45.179:9090", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:9090", allowCredentials = "true")
     @PostMapping("/create")
     public ResponseEntity<Reservation> createReservation(
             @RequestBody Reservation reservation,

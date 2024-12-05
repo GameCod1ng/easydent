@@ -133,7 +133,7 @@ function confirmReservation() {
             inQuery: document.getElementById("content").value
         };
 
-        fetch('http://192.168.45.179:9090/reservation/create', {
+        fetch('http://localhost:9090/reservation/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
