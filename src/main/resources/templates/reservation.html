@@ -6,6 +6,8 @@
     <title>EasyDent</title>
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/reservation.css}">
+    <!--  지도 스크립트  -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3dfca59a4cb0111ab8d50fe1b6306ada&autoload=false"></script>
 </head>
 <body>
 <header>
@@ -22,16 +24,31 @@
         <div id="reservation-list" class="list"></div>
     </div>
 
+
+
     <div class="container" id="dent-info-section">
+
+        <script>
+            kakao.maps.load(function() {
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 5
+                };
+                var map = new kakao.maps.Map(container, options);
+            });
+        </script>
         <h1 id="dent-name">치과 정보</h1>
         <p id="dent-address">주소: Example Address</p>
         <p id="dent-phone">전화번호: 010-1234-5678</p>
         <p id="dent-clinicTime">진료시간: 010-1234-5678</p>
         <p id="dent-lunchTime">점심시간: 010-1234-5678</p>
+        <div id="map" style="width:500px;height:400px;"></div>
         <button onclick="goToAppointment()">예약 시간 선택</button>
     </div>
 
     <div class="container" id="appointment-section">
+
         <h1>예약자명: <input type="text"></h1>
         <h1>병원명 :</h1>
         <h1>예약 날짜 선택</h1>

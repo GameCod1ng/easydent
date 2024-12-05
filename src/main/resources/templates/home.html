@@ -7,6 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/reservation.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
 
         .location-text {
@@ -17,13 +19,13 @@
         }
 
 
-
         /* 별 버튼 */
         .star-btn {
             flex: 1;
             text-align: right;
         }
     </style>
+
 </head>
 
 <body>
@@ -44,22 +46,54 @@
     </section>
 
     <!-- Banner Section -->
-    <section class="banner">
-        <p>할인 및 이벤트 배너</p>
-        <div class="pagination">1/23</div>
-    </section>
-
-    <!-- Popular Posts Section -->
-    <section class="popular-posts">
-        <h2>요즘 뜨는 인기글 보기</h2>
-        <ul></ul>
-        <button class="view-all-btn" onclick="window.location.href='/review/list';">
-            글 전체보기
+    <section id="carouselExample" class="carousel slide banner" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/img/event1.webp" class="d-block w-100" alt="Event 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/event2.webp" class="d-block w-100" alt="Event 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/event3.webp" class="d-block w-100" alt="Event 3">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/event4.webp" class="d-block w-100" alt="Event 4">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/event5.webp" class="d-block w-100" alt="Event 5">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">이전</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">다음</span>
         </button>
     </section>
 
+
     <section class="information-cards">
-        <div class="card" style="background-color: #FF6B6B;"
+        <!-- t1 -->
+
+        <div class="card" style="background-color: #Fee1e8;">
+            <div class="card-content">
+                <div class="text-content">
+                    <h2>요즘 뜨는 인기글 보기</h2>
+                    <p>요즘 가장 많이 읽히는 인기글을 확인해보세요!</p>
+                    <button class="view-all-btn" onclick="window.location.href='/review/list';">
+                        글 전체보기
+                    </button>
+                </div>
+                <img src="/img/t3.webp" alt="사진5" class="card-image">
+            </div>
+        </div>
+
+
+        <!-- t1 섹션 종료 -->
+        <div class="card" style="background-color: #Fed7c3;"
              onclick="window.location.href='http://localhost:9090/qa/page';">
             <div class="card-content">
                 <div class="text-content">
@@ -69,7 +103,7 @@
                 <img src="/img/qa1.png" alt="사진1" class="card-image">
             </div>
         </div>
-        <div class="card" style="background-color: #4ECDC4;">
+        <div class="card" style="background-color: #f6eac2;">
             <div class="card-content">
                 <div class="text-content">
                     <h3>아이가 열 날 때 5가지 대처법 총정리</h3>
@@ -78,7 +112,7 @@
                 <img src="/img/qa2.png" alt="사진2" class="card-image">
             </div>
         </div>
-        <div class="card" style="background-color: #FFA801;">
+        <div class="card" style="background-color: #ecd5e3;">
             <div class="card-content">
                 <div class="text-content">
                     <h3>여행 상비약 4종류는 꼭 챙기셔야 해요</h3>
@@ -94,7 +128,8 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     // 페이지 로드 시 저장된 위치 정보 표시
-    document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function () {
         fetch('/user/current')
             .then(response => response.text())
             .then(email => {
@@ -110,7 +145,7 @@
 
     function openPostcode() {
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 fetch('/user/current')
                     .then(response => response.text())
                     .then(email => {
@@ -140,6 +175,7 @@
         }).open();
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
