@@ -16,7 +16,7 @@ body {
 }
 
 .header {
-    position: fixed;
+    position: fixed; /* 화면 상단에 고정 */
     top: 0;
     width: 100%;
     max-width: 600px;
@@ -27,27 +27,30 @@ body {
     font-size: 18px;
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 1000; /* 다른 요소 위에 표시 */
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 }
 
 .header .star-btn {
-    background: none; /* 배경 제거 */
-    border: none; /* 테두리 제거 */
-    font-size: 20px; /* 별 모양 크기 설정 */
-    cursor: pointer; /* 클릭 가능한 상태 표시 */
-    position: absolute; /* 절대 위치 지정 */
-    top: 10px; /* 상단 여백 */
-    right: 10px; /* 오른쪽 여백 */
-    color: #FFD700; /* 별 색상 (골드) */
-    opacity: 0.7; /* 투명도 설정 (70% 투명) */
-    transition: opacity 0.2s ease; /* 호버 시 부드러운 전환 효과 */
+    position: absolute; /* 헤더 내부 위치 지정 */
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #FFD700;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .header .star-btn:hover {
     opacity: 1;
+    transform: translateY(-50%) scale(1.1);
 }
+
 
 .star-btn {
     cursor: pointer;
@@ -66,15 +69,13 @@ body {
 .main-content {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    margin-top: 72px;
-    margin-bottom: 100px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    height: calc(100vh - 140px);
+    overflow: visible;
+    margin-top: 72px; /* 헤더 높이만큼 간격 */
+    padding-bottom: 100px; /* 푸터와의 간격 확보 */
 }
 
 .reservation-btn {

@@ -1,0 +1,142 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>질문과 답변</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .qa-content {
+            width: 100%;
+            max-width: 600px;
+            margin: 88px auto 88px; /* 헤더와 푸터 사이에 균형 있는 공간 유지 */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 140px); /* 헤더(72px)와 푸터(68px) 제외 */
+            overflow-y: auto;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .header .back-button {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #9694FF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        .header.back-button:hover {
+            background-color: #9694FF;
+        }
+
+        .questions {
+            margin-bottom: 20px;
+        }
+
+        .questions h2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .questions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .questions li {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .questions li strong {
+            font-size: 16px;
+            color: #333;
+            display: block; /* strong을 block으로 변경하여 간격 쉽게 추가 */
+            margin-bottom: 8px; /* p 태그와의 간격 */
+        }
+
+        .questions li p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 0; /* strong과의 간격만 관리하도록 설정 */
+        }
+
+        .questions img {
+            width: 100%;
+            height: auto; /* 비율 유지를 위해 height는 auto로 설정 */
+            margin-top: 16px; /* 이미지와 상단 요소 간격 */
+        }
+
+
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<header class="header">
+    <a href="/" class="back-button">
+        뒤로가기
+    </a>
+    여행 상비약 4종류는 꼭 챙기셔야 해요
+</header>
+
+<main class="qa-content">
+    <section class="questions">
+        <img src="/img/drog/drog1.jpg">
+        <img src="/img/drog/drog2.jpg">
+        <img src="/img/drog/drog3.jpg">
+
+    </section>
+</main>
+
+<div th:replace="footer :: footer"></div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package webproject.easydent.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +41,7 @@ public class User{
 
     private Boolean isFamilyLeader; // 가족 리더인지 여부
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Location> locationList; // 리뷰에 대한 답글 리스트
 

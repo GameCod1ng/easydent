@@ -58,6 +58,17 @@ public class UserController {
         return "qa_page";
     }
 
+    @GetMapping("/qa/page1")
+    public String qaPage1() {
+        return "qa_page1";
+    }
+
+    @GetMapping("/qa/page2")
+    public String qaPage2() {
+        return "qa_page2";
+    }
+
+
     private void addUserToModel(Model model, User user) {
         model.addAttribute("userEmail", user.getEmail());
         model.addAttribute("userName", user.getName());
@@ -67,4 +78,5 @@ public class UserController {
         model.addAttribute("createdAt", user.getCreatedAt());
         model.addAttribute("address", user.getAddress());
     }
+
 }

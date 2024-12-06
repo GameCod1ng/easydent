@@ -1,16 +1,16 @@
-// JavaScript 기능 코드
+// 기본 변수 선언
 const reservationSection = document.getElementById("reservation-section");
 const dentInfoSection = document.getElementById("dent-info-section");
 const appointmentSection = document.getElementById("appointment-section");
 const confirmButton = document.getElementById("confirm-button");
 const timeSlots = document.getElementById("time-slots");
-let selectedDate = null; // 선택된 날짜
-let selectedTime = null; // 선택된 시간
+let selectedDate = null;
+let selectedTime = null;
 
 // 예약 날짜 선택 이벤트
 document.getElementById("reservation-date").addEventListener("change", (event) => {
-    selectedDate = event.target.value; // 선택된 날짜 저장
-    validateReservation(); // 예약 버튼 활성화 여부 확인
+    selectedDate = event.target.value;
+    validateReservation();
 });
 
 // 섹션 전환 함수
@@ -29,6 +29,7 @@ function goBack() {
     }
 }
 
+// 팝스테이트 이벤트 리스너
 window.addEventListener("popstate", (event) => {
     const section = event.state?.section;
     if (section) {
@@ -38,11 +39,12 @@ window.addEventListener("popstate", (event) => {
     }
 });
 
-// 치과 검색
+// 치과 검색 함수
 function searchDentistry() {
     const reservationList = document.getElementById("reservation-list");
     const searchInput = document.getElementById("search");
     const keyword = searchInput.value.trim();
+
     fetch(`/reservation/search?keyword=${encodeURIComponent(keyword)}`)
         .then(response => response.json())
         .then(data => {
@@ -52,13 +54,13 @@ function searchDentistry() {
                     const listItem = document.createElement('div');
                     listItem.className = 'item';
                     listItem.innerHTML = `
-                            <div class="item-text">
-                                <strong>${dentistry.clinicName}</strong><br>
-                                주소 : ${dentistry.address}<br>
-                                진료시간 : ${dentistry.openAtweekday} - ${dentistry.closeAtweekday}
-                            </div>
-                            <button class="button" onclick="goToDentInfo('${dentistry.clinicName}', '${dentistry.address}', '${dentistry.telephone}', '${dentistry.openAtweekday}', '${dentistry.closeAtweekday}', '${dentistry.lunchTime}')">예약하기</button>
-                        `;
+                        <div class="item-text">
+                            <strong>${dentistry.clinicName}</strong><br>
+                            주소 : ${dentistry.address}<br>
+                            진료시간 : ${dentistry.openAtweekday} - ${dentistry.closeAtweekday}
+                        </div>
+                        <button class="button" onclick="goToDentInfo('${dentistry.clinicName}', '${dentistry.address}', '${dentistry.telephone}', '${dentistry.openAtweekday}', '${dentistry.closeAtweekday}', '${dentistry.lunchTime}')">예약하기</button>
+                    `;
                     reservationList.appendChild(listItem);
                 });
             } else {
@@ -71,18 +73,44 @@ function searchDentistry() {
         });
 }
 
-// 치과 정보로 이동
+// 치과 정보로 이동하는 함수
 function goToDentInfo(name, address, phone, openTime, closeTime, lunchTime) {
+    // HTML 요소 업데이트
     document.getElementById("dent-name").textContent = name || "이름 없음";
-    document.getElementById("dent-address").textContent = `주소: ${address || "주소 없음"}`;
-    document.getElementById("dent-phone").textContent = `전화번호: ${phone || "전화번호 없음"}`;
-    document.getElementById("dent-clinicTime").textContent = `진료시간: ${openTime || "09:00"} - ${closeTime || "18:00"}`;
-    document.getElementById("dent-lunchTime").textContent = `점심시간: ${lunchTime || "13:00"}`;
+    document.getElementById("dent-address").textContent = "주소: " + (address || "주소 없음");
+    document.getElementById("dent-phone").textContent = "전화번호: " + (phone || "전화번호 없음");
+    document.getElementById("dent-clinicTime").textContent = "진료시간: " + (openTime || "09:00") + " - " + (closeTime || "18:00");
+    document.getElementById("dent-lunchTime").textContent = "점심시간: " + (lunchTime || "13:00");
+
+    // 카카오맵 초기화
+    kakao.maps.load(function() {
+        const mapContainer = document.getElementById('map');
+        const geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(address, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                const mapOption = {
+                    center: coords,  // 검색된 좌표로 중심점 설정
+                    level: 3
+                };
+
+                const map = new kakao.maps.Map(mapContainer, mapOption);
+
+                const marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+            }
+        });
+    });
+
     history.pushState({section: "dent-info-section"}, null, "");
     showSection("dent-info-section");
 }
 
-// 예약 시간 슬롯 생성
+// 예약 시간 슬롯 생성 함수
 function generateTimeSlots() {
     timeSlots.innerHTML = "";
     const startTime = new Date();
@@ -98,7 +126,7 @@ function generateTimeSlots() {
             document.querySelectorAll('.time-slot').forEach(s => s.classList.remove("selected"));
             slot.classList.add("selected");
             selectedTime = slot.textContent;
-            validateReservation(); // 예약 버튼 활성화 여부 확인
+            validateReservation();
         };
         timeSlots.appendChild(slot);
         startTime.setMinutes(startTime.getMinutes() + 30);
@@ -112,16 +140,12 @@ function goToAppointment() {
     generateTimeSlots();
 }
 
-// 예약 버튼 활성화 여부 확인
+// 예약 유효성 검사
 function validateReservation() {
-    if (selectedDate && selectedTime) {
-        confirmButton.disabled = false;
-    } else {
-        confirmButton.disabled = true;
-    }
+    confirmButton.disabled = !(selectedDate && selectedTime);
 }
 
-// 예약 확정
+// 예약 확정 함수
 function confirmReservation() {
     if (selectedDate && selectedTime) {
         const reservationData = {
@@ -141,11 +165,8 @@ function confirmReservation() {
             body: JSON.stringify(reservationData),
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
             })
             .then(data => {
                 alert('예약이 성공적으로 저장되었습니다.');
@@ -161,14 +182,14 @@ function confirmReservation() {
     }
 }
 
-// 날짜 입력 필드에 최소 날짜 설정
+// 날짜 설정
 const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
 const minDate = tomorrow.toISOString().split('T')[0];
 document.getElementById("reservation-date").min = minDate;
 
-// 날짜 선택 이벤트 리스너 수정
+// 날짜 선택 이벤트 리스너
 document.getElementById("reservation-date").addEventListener("change", (event) => {
     const selectedDateValue = new Date(event.target.value);
     const today = new Date();
@@ -184,4 +205,6 @@ document.getElementById("reservation-date").addEventListener("change", (event) =
     validateReservation();
 });
 
+// 초기 상태 설정
 history.replaceState({section: "reservation-section"}, null, "");
+

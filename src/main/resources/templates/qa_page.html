@@ -1,116 +1,160 @@
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>질문과 답변</title>
-  <link rel="stylesheet" th:href="@{/css/footer.css}">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Noto Sans', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>질문과 답변</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .qa-content {
-      width: 100%;
-      max-width: 600px;
-      /*margin: 0 auto;*/
-      margin-bottom: 100px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      height: calc(100vh - 140px);
-    }
-    .header {
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 20px;
-      text-align: center;
-      background-color: #FF6B6B;
-      color: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .questions {
-      margin-bottom: 20px;
-    }
-    .questions h2 {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 16px;
-    }
-    .questions ul {
-      list-style: none;
-      padding: 0;
-    }
-    .questions li {
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #ddd;
-    }
-    .questions li strong {
-      font-size: 16px;
-      color: #333;
-    }
-    .questions li p {
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
+        body {
+            font-family: 'Noto Sans', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .qa-content {
+            width: 100%;
+            max-width: 600px;
+            margin: 88px auto 88px; /* 헤더와 푸터 사이에 균형 있는 공간 유지 */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 140px); /* 헤더(72px)와 푸터(68px) 제외 */
+            overflow-y: auto;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background-color: #5a91f7;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .header .back-button {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #9694FF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        .header.back-button:hover {
+            background-color: #9694FF;
+        }
+
+        .questions {
+            margin-bottom: 20px;
+        }
+
+        .questions h2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .questions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .questions li {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .questions li strong {
+            font-size: 16px;
+            color: #333;
+            display: block; /* strong을 block으로 변경하여 간격 쉽게 추가 */
+            margin-bottom: 8px; /* p 태그와의 간격 */
+        }
+
+        .questions li p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 0; /* strong과의 간격만 관리하도록 설정 */
+        }
+
+    </style>
 </head>
 <body>
+<!-- 헤더 -->
 <header class="header">
-  <h1>무엇이든 물어보세요</h1>
+    <a href="/" class="back-button">
+        뒤로가기
+    </a>
+    무엇이든 물어보세요
 </header>
 
 <main class="qa-content">
-  <section class="questions">
-    <h2>자주 묻는 질문들</h2>
-    <ul>
-      <li>
-        <strong>1️⃣ Q: 예약은 어떻게 하나요?</strong>
-        <p>A: 이지덴트를 이용하거나, 전화 예약도 가능합니다.</p>
-      </li>
-      <li>
-        <strong>2️⃣ Q: 예약 취소는 어떻게 하나요?</strong>
-        <p>A: 예약 취소는 이지덴트나 전화로 가능합니다. 당일 취소는 불가능합니다.</p>
-      </li>
-      <li>
-        <strong>3️⃣ Q: 예약 시 어떤 정보가 필요한가요?</strong>
-        <p>A: 성명, 연락처, 진료를 받고자 하는 날짜 등의 정보가 필요합니다.</p>
-      </li>
-      <li>
-        <strong>4️⃣ Q: 예약 당일 지각하면 어떻게 되나요?</strong>
-        <p>A: 진료가 후순위로 밀릴 수 있으니 사전에 예약을 수정해주세요.</p>
-      </li>
-      <li>
-        <strong>5️⃣ Q: 예약 후 변경은 어떻게 하나요?</strong>
-        <p>A: 예약 변경은 이지덴트 혹은 전화로 가능합니다.</p>
-      </li>
-      <li>
-        <strong>6️⃣ Q: 예약 후 확인은 어떻게 하나요?</strong>
-        <p>A: 예약 후 메시지가 발송됩니다. 이를 통해 예약 내역을 확인할 수 있습니다.</p>
-      </li>
-      <li>
-        <strong>7️⃣ Q: 예약 당일 진료 가능한지 확인하려면?</strong>
-        <p>A: 진료 가능 여부는 이지덴트 혹은 전화로 확인이 가능합니다.</p>
-      </li>
-    </ul>
-  </section>
+    <section class="questions">
+        <h2>자주 묻는 질문들</h2>
+        <ul>
+            <li>
+                <strong>1️⃣ Q: 예약은 어떻게 하나요?</strong>
+                <p>A: 이지덴트를 이용하거나, 전화 예약도 가능합니다.</p>
+            </li>
+            <li>
+                <strong>2️⃣ Q: 예약 취소는 어떻게 하나요?</strong>
+                <p>A: 예약 취소는 이지덴트나 전화로 가능합니다. 당일 취소는 불가능합니다.</p>
+            </li>
+            <li>
+                <strong>3️⃣ Q: 예약 시 어떤 정보가 필요한가요?</strong>
+                <p>A: 성명, 연락처, 진료를 받고자 하는 날짜 등의 정보가 필요합니다.</p>
+            </li>
+            <li>
+                <strong>4️⃣ Q: 예약 당일 지각하면 어떻게 되나요?</strong>
+                <p>A: 진료가 후순위로 밀릴 수 있으니 사전에 예약을 수정해주세요.</p>
+            </li>
+            <li>
+                <strong>5️⃣ Q: 예약 후 변경은 어떻게 하나요?</strong>
+                <p>A: 예약 변경은 이지덴트 혹은 전화로 가능합니다.</p>
+            </li>
+            <li>
+                <strong>6️⃣ Q: 예약 후 확인은 어떻게 하나요?</strong>
+                <p>A: 예약 후 메시지가 발송됩니다. 이를 통해 예약 내역을 확인할 수 있습니다.</p>
+            </li>
+            <li>
+                <strong>7️⃣ Q: 예약 당일 진료 가능한지 확인하려면?</strong>
+                <p>A: 진료 가능 여부는 이지덴트 혹은 전화로 확인이 가능합니다.</p>
+            </li>
+        </ul>
+    </section>
 </main>
 
 <div th:replace="footer :: footer"></div>
