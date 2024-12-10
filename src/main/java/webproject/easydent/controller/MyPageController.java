@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import webproject.easydent.entities.FamilyAccount;
 import webproject.easydent.entities.User;
+import webproject.easydent.repositories.FamilyRepository;
 import webproject.easydent.review.review.Review;
 import webproject.easydent.review.review.ReviewService;
 import webproject.easydent.service.FamilyAccountService;
@@ -28,6 +29,7 @@ public class MyPageController {
     private final UserService userService;
     private final FamilyAccountService familyAccountService;
     private final ReviewService reviewService;
+    private final FamilyRepository familyRepository;
 
     @GetMapping
     public String myPage(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
@@ -59,20 +61,7 @@ public class MyPageController {
         return "edit-info";
     }
 
-    //정보 수정
-    @PostMapping("/update-user")
-    public String updateUser(@ModelAttribute User user,
-                             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
-        if (customOAuth2User != null) {
-            user.setEmail(customOAuth2User.getUser().getEmail());  // 현재 로그인한 사용자의 ID 설정
-            userService.updateUser(user);
-
-            log.info(user.getName());
-        }
-
-        return "redirect:/mypage";
-    }
-
+    //가족 계정
     @PostMapping("/family-group/create")
     public String createFamilyGroup(
             @AuthenticationPrincipal CustomOAuth2User user,
@@ -98,16 +87,32 @@ public class MyPageController {
         }
     }
 
-    @GetMapping("/family-management")
-    public String familyManagement(Model model, HttpSession session) {
-        // 세션에서 데이터 복원
-        model.addAttribute("currentUser", session.getAttribute("currentUser"));
-        model.addAttribute("memberEmail", session.getAttribute("memberEmail"));
-        model.addAttribute("relationship", session.getAttribute("relationship"));
-        model.addAttribute("familyAccount", session.getAttribute("familyAccount"));
+//    @GetMapping("/family-management")
+//    public String familyManagement(Model model, HttpSession session) {
+//        // 세션에서 데이터 복원
+//        model.addAttribute("currentUser", session.getAttribute("currentUser"));
+//        model.addAttribute("memberEmail", session.getAttribute("memberEmail"));
+//        model.addAttribute("relationship", session.getAttribute("relationship"));
+//        model.addAttribute("familyAccount", session.getAttribute("familyAccount"));
+//
+//        return "family-management";
+//    }
+@GetMapping("/family-management")
+public String familyManagement(Model model, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+    if (customOAuth2User != null) {
+        User user = customOAuth2User.getUser();
+        FamilyAccount familyAccount = familyAccountService.getFamilyAccount(user);
 
-        return "family-management";
+        if (familyAccount != null) {
+            model.addAttribute("familyAccount", familyAccount);
+            model.addAttribute("hasFamily", true);
+        } else {
+            model.addAttribute("hasFamily", false);
+        }
     }
+    return "family-management";
+}
+
 
     //고객 센터
     @GetMapping("/customer-center")

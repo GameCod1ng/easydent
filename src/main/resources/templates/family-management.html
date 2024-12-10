@@ -175,6 +175,25 @@
             border-radius: 12px;
             margin-top: 20px;
         }
+
+        .no-groups {
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px dashed #dee2e6;
+        }
+
+        .no-groups p {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .no-groups p:last-child {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -189,7 +208,7 @@
     <!-- 가족 그룹 생성 폼 -->
     <div class="form-group">
         <div class="form-title">가족 그룹 생성</div>
-        <form th:action="@{/family-group/create}" method="post">
+        <form th:action="@{/mypage/family-group/create}" method="post">
             <input type="email" name="memberEmail" placeholder="초대할 구성원 이메일" required>
             <select name="relationship" required>
                 <option value="">관계 선택</option>
@@ -205,20 +224,27 @@
 
     <!-- 가족 그룹 목록 -->
     <div class="family-groups">
-        <div class="family-card" th:if="${session.familyAccount != null}">
+        <!-- 가족 계정이 있는 경우 -->
+        <div class="family-card" th:if="${familyAccount != null}">
             <div class="family-card-title">가족 그룹</div>
             <div class="family-info">
                 <span class="family-label">대표자</span>
-                <span class="family-value" th:text="${session.currentUser.email}"></span>
+                <span class="family-value" th:text="${familyAccount.leader.email}"></span>
             </div>
             <div class="family-info">
                 <span class="family-label">구성원</span>
-                <span class="family-value" th:text="${session.memberEmail}"></span>
+                <span class="family-value" th:text="${familyAccount.member.email}"></span>
             </div>
             <div class="family-info">
                 <span class="family-label">관계</span>
-                <span class="family-value" th:text="${session.relationship}"></span>
+                <span class="family-value" th:text="${familyAccount.relationship}"></span>
             </div>
+        </div>
+
+        <!-- 가족 계정이 없는 경우 -->
+        <div class="no-groups" th:if="${familyAccount == null}">
+            <p>아직 가족 계정이 존재하지 않습니다.</p>
+            <p>위 폼을 통해 가족 계정을 생성해주세요.</p>
         </div>
     </div>
     <div th:replace="footer :: footer"></div>

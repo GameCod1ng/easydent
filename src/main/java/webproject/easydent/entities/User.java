@@ -21,22 +21,28 @@ public class User{
     @Id
     String email;
 
+    @Column(nullable = true)
     String name;
 
+    @Column(nullable = true)
     String phoneNumber;
 
+    @Column(nullable = true)
     LocalDate birthDay;
 
+    @Column(nullable = true)
     String accountType; // 어떤 계정(구글, 카카오)으로 로그인 했는지
 
+    @Column(nullable = true)
     LocalDate createdAt; // 계정 생성일
 
+    @Column(nullable = true)
     String address; // 주소
 
 
     // FamilyAccount 관계 수정
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "family_id")
+    @JoinColumn(name = "family_id", unique = true)
     private FamilyAccount familyAccount;
 
     private Boolean isFamilyLeader; // 가족 리더인지 여부
