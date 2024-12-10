@@ -12,7 +12,7 @@ spring:
   #      path: /h2-console
   datasource:
 
-    url: jdbc:mysql://localhost:3307/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
 #    url: jdbc:mysql://192.168.45.179:3306/easydent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: easydent
@@ -36,7 +36,7 @@ spring:
       client:
         registration:
           kakao:
-            client-id: af5058c0258df5e867d46392ad1a04a3
+            client-id: 04c4c88de1a780080f9ec1907a9eb144
             client-secret: xvfDCqfHvHf5rOhdivwcTAkSsHoMbwT6
             scope:
               - account_email
